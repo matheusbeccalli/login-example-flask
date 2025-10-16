@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-lg-10">
+        <!-- Page Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="mb-0">
+                    <i class="bi bi-speedometer2 me-2 text-primary"></i>Dashboard
+                </h2>
+                <p class="text-muted mb-0">Welcome to your personal dashboard</p>
+            </div>
+            <div>
+                <span class="badge bg-success fs-6">
+                    <i class="bi bi-person-check me-1"></i>Online
+                </span>
+            </div>
+        </div>
+
+        <!-- User Info Card -->
+        <div class="row mb-4">
+            <div class="col-md-12">
+                <div class="card border-primary">
+                    <div class="card-header bg-primary text-white">
+                        <h5 class="card-title mb-0">
+                            <i class="bi bi-person-circle me-2"></i>User Information
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <p><strong>Username:</strong> {{ current_user.username }}</p>
+                                <p><strong>Email:</strong> {{ current_user.email }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <p><strong>Account Created:</strong> {{ current_user.created_at.strftime('%B %d, %Y') }}</p>
+                                {% if current_user.last_login %}
+                                <p><strong>Last Login:</strong> {{ current_user.last_login.strftime('%B %d, %Y at %I:%M %p') }}</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Cards -->
+        <div class="row mb-4">
+            <div class="col-md-4 mb-3">
+                <div class="card text-center h-100 border-info">
+                    <div class="card-header bg-info text-white">
+                        <h6 class="card-title mb-0">
+                            <i class="bi bi-shield-check me-2"></i>Security Status
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="text-success">
+                            <i class="bi bi-check-circle-fill"></i>
+                        </h4>
+                        <p class="card-text">Your account is secure</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-3">
+                <div class="card text-center h-100 border-warning">
+                    <div class="card-header bg-warning text-dark">
+                        <h6 class="card-title mb-0">
+                            <i class="bi bi-clock me-2"></i>Session Info
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="text-primary">
+                            <i class="bi bi-hourglass-split"></i>
+                        </h4>
+                        <p class="card-text">Session active</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-3">
+                <div class="card text-center h-100 border-success">
+                    <div class="card-header bg-success text-white">
+                        <h6 class="card-title mb-0">
+                            <i class="bi bi-activity me-2"></i>Status
+                        </h6>
+                    </div>
+                    <div class="card-body">
+                        <h4 class="text-success">
+                            <i class="bi bi-circle-fill"></i>
+                        </h4>
+                        <p class="card-text">Online</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">
+                            <i class="bi bi-lightning me-2"></i>Quick Actions
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <button class="btn btn-outline-primary w-100" onclick="refreshPage()">
+                                    <i class="bi bi-arrow-clockwise me-2"></i>Refresh Dashboard
+                                </button>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <a href="{{ url_for('main.index') }}" class="btn btn-outline-info w-100">
+                                    <i class="bi bi-house me-2"></i>Back to Home
+                                </a>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <button class="btn btn-outline-warning w-100" onclick="showAlert()">
+                                    <i class="bi bi-bell me-2"></i>Test Notification
+                                </button>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <a href="{{ url_for('auth.logout') }}" class="btn btn-outline-danger w-100">
+                                    <i class="bi bi-box-arrow-right me-2"></i>Logout
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+function refreshPage() {
+    location.reload();
+}
+
+function showAlert() {
+    alert('This is a test notification from your dashboard!');
+}
+
+// Add some interactivity
+document.addEventListener('DOMContentLoaded', function() {
+    // Add hover effects to cards
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px)';
+            this.style.transition = 'transform 0.2s';
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+        });
+    });
+});
+</script>
+{% endblock %}
